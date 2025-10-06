@@ -1,7 +1,8 @@
+import {Routes} from '@angular/router'
 import { HomeComponent } from './endpoints/home/home.component';
 import { AboutComponent } from './endpoints/about/about.component';
 import { ContactComponent } from './endpoints/contact/contact.component';
-import { EquipmentListComponent } from './endpoints/equipment/equipment-list/equipment-list.component';
+import { EquipmentListComponent } from './endpoints/equipment/equipments-list/equipment-list.component';
 import { EquipmentDetailsComponent } from './endpoints/equipment/equipment-details/equipment-details.component';
 import { AddEquipmentComponent } from './endpoints/equipment/add-equipment/add-equipment.component';
 
