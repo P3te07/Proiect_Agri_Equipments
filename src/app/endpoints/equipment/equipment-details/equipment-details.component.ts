@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { EquipmentDetailsService } from './equipment-details.service';
-import { Equipment } from './equipment-details.model';
+import { EquipmentService } from '../../../services/equipment.service';
+import { Equipment } from '../../../models/equipment.model';
 
 @Component({
   selector: 'app-equipment-details',
@@ -17,14 +17,14 @@ export class EquipmentDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private equipmentService: EquipmentDetailsService
+    private equipmentService: EquipmentService
   ) {}
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
-      const id = +idParam; 
-      this.equipment = this.equipmentService.getEquipmentById(id);
+      const id = Number(idParam);
+      this.equipment = this.equipmentService.getById(id);
     }
   }
 }
