@@ -1,0 +1,21 @@
+<div class="container">
+  <ng-container *ngIf="equipment; else notFound">
+    <h2>Detalii echipament</h2>
+    <img [src]="equipment.imageUrl" alt="{{ equipment.name }}">
+    <h3>{{ equipment.name }}</h3>
+    <p>{{ equipment.description }}</p>
+    <p><strong>Preț/zi:</strong> {{ equipment.pricePerDay }} $</p>
+    <p><strong>Status:</strong>
+      <span [ngStyle]="{ color: equipment.available ? 'green' : 'red' }">
+        {{ equipment.available ? 'Disponibil' : 'Nu disponibil' }}
+      </span>
+    </p>
+    <a routerLink="/equipments">← Înapoi la listă</a>
+  </ng-container>
+
+  <ng-template #notFound>
+    <p>Echipament nu a fost găsit.</p>
+    <a routerLink="/equipments" class="btn">Mergi la listă</a>
+    <a routerLink="/Home" class="btn"><-Înapoi Acasă</a>
+  </ng-template>
+</div>

@@ -1,0 +1,24 @@
+<div class="container">
+  <h2>Adaugă echipament nou</h2>
+  <form (ngSubmit)="onSubmit()" #addForm="ngForm">
+    <label>Nume:</label>
+    <input type="text" [(ngModel)]="newEquipment.name" name="name" required>
+
+    <label>Descriere:</label>
+    <textarea [(ngModel)]="newEquipment.description" name="description"></textarea>
+
+    <label>Preț/zi:</label>
+    <input type="number" [(ngModel)]="newEquipment.pricePerDay" name="pricePerDay" required>
+
+    <label>URL imagine:</label>
+    <input type="url" [(ngModel)]="newEquipment.imageUrl" name="imageUrl">
+
+    <label>
+      <input type="checkbox" [(ngModel)]="newEquipment.available" name="available"> Disponibil
+    </label>
+
+    <button type="submit" [disabled]="addForm.invalid">Adaugă</button>
+  </form>
+
+  <a routerLink="/equipments" class="btn">← Înapoi la listă</a>
+</div>

@@ -1,0 +1,17 @@
+<div class="container">
+  <h2>Contact</h2>
+  <form (ngSubmit)="submit()" #contactForm="ngForm">
+    <label>Name:</label>
+    <input type="text" [(ngModel)]="name" name="name" required>
+
+    <label>Email:</label>
+    <input type="email" [(ngModel)]="email" name="email" required>
+
+    <label>Message:</label>
+    <textarea [(ngModel)]="message" name="message" required></textarea>
+
+    <button type="submit" [disabled]="contactForm.invalid">Trimite</button>
+  </form>
+
+  <a routerLink="/Home" class="btn">← Înapoi la Home</a>
+</div>

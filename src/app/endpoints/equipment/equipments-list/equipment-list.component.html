@@ -1,0 +1,25 @@
+<div class="container">
+  <h2>Lista echipamente agricole</h2>
+
+  <div *ngIf="equipments && equipments.length > 0; else noEquipments">
+    <div *ngFor="let eq of equipments" class="card">
+      <img [src]="eq.imageUrl" alt="{{ eq.name }}">
+      <h3>{{ eq.name }}</h3>
+      <p>{{ eq.description }}</p>
+      <p><strong>Preț/zi:</strong> {{ eq.pricePerDay }} $</p>
+      <p>
+        <strong>Status:</strong>
+        <span [ngStyle]="{ color: eq.available ? 'green' : 'red' }">
+          {{ eq.available ? 'Disponibil' : 'Nu e disponibil' }}
+        </span>
+      </p>
+      <a [routerLink]="['/equipments', eq.id]">Vezi detalii</a>
+    </div>
+  </div>
+
+  <ng-template #noEquipments>
+    <p>Nu există echipamente de afișat.</p>
+  </ng-template>
+
+  <a routerLink="/Home" class="btn">← Înapoi la Home</a>
+</div>
