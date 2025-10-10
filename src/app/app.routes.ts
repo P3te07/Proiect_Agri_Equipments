@@ -12,6 +12,6 @@ export const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'equipments', component: EquipmentListComponent },
   { path: 'equipments/:id', component: EquipmentDetailsComponent },
-  { path: 'equipments/add', component: AddEquipmentComponent },
+  { path: 'add-equipment', component: AddEquipmentComponent },
   { path: '**', redirectTo: '' }
 ];

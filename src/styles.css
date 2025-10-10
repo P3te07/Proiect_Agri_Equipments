@@ -1,6 +1,6 @@
 :root {
-  --primary-color: #2E8B57;     /* verde închis */
-  --accent-color: #FFD700;      /* galben */
+  --primary-color: #2E8B57;  
+  --accent-color: #FFD700;   
   --background-color: #F5F5F5;
   --text-color: #333333;
   --card-bg: #ffffff;
@@ -37,14 +37,12 @@ button:hover, .btn:hover {
   background-color: #e6c500;
 }
 
-/* Container general */
 .container {
   width: 90%;
   max-width: 1000px;
   margin: 20px auto;
 }
 
-/* Stil pentru bannere pe Home */
 .home-banner {
   position: relative;
   width: 100%;
@@ -71,14 +69,12 @@ button:hover, .btn:hover {
   border-radius: 8px;
 }
 
-/* Grid pentru lista echipamente */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
 }
 
-/* Carduri */
 .card {
   background-color: var(--card-bg);
   border: 1px solid #ddd;
@@ -117,7 +113,6 @@ button:hover, .btn:hover {
   background-color: #f9f9f9;
 }
 
-/* Buton “back” centrat */
 .back-container {
   margin-top: 20px;
   text-align: center;
@@ -126,7 +121,6 @@ button:hover, .btn:hover {
   display: inline-block;
 }
 
-/* Formular */
 form {
   background-color: var(--card-bg);
   padding: 20px;
@@ -150,6 +144,55 @@ form textarea {
   border-radius: 4px;
   box-sizing: border-box;
 }
+
 form textarea {
   resize: vertical;
 }
+
+.navbar {
+  display: flex;
+  justify-content: center;      
+  align-items: center;          
+  background-color: var(--primary-color); 
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.navbar a, .navbar .nav-item {
+  color: var(--text-color);
+  margin: 0 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.navbar a:hover, .navbar .nav-item:hover {
+  color: var(--accent-color);
+  transform: scale(1.05);
+}
+
+.navbar a.active {
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.navbar{
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-right: auto;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 15px;
+  }
+  .navbar a, .navbar .nav-item {
+    margin: 8px 0;
+  }
+}
+
