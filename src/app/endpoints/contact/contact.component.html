@@ -1,17 +1,19 @@
 <div class="container">
-  <h2>Contact</h2>
+  <h2>Contactează-ne</h2>
   <form (ngSubmit)="submit()" #contactForm="ngForm">
-    <label>Name:</label>
-    <input type="text" [(ngModel)]="name" name="name" required>
+    <label for="name">Nume:</label>
+    <input type="text" id="name" [(ngModel)]="name" name="name" required>
 
-    <label>Email:</label>
-    <input type="email" [(ngModel)]="email" name="email" required>
+    <label for="email">Email:</label>
+    <input type="email" id="email" [(ngModel)]="email" name="email" required>
 
-    <label>Message:</label>
-    <textarea [(ngModel)]="message" name="message" required></textarea>
+    <label for="message">Mesaj:</label>
+    <textarea id="message" [(ngModel)]="message" name="message" required></textarea>
 
     <button type="submit" [disabled]="contactForm.invalid">Trimite</button>
   </form>
 
-  <a routerLink="/" class="back-btn">← Înapoi la Home</a>
+  <div class="back-container">
+    <button routerLink="/" class="back-btn">← Înapoi la Home</button>
+  </div>
 </div>

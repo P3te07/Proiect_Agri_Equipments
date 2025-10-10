@@ -6,9 +6,9 @@ import { Equipment } from '../models/equipment.model';
 })
 export class EquipmentService {
   private equipments: Equipment[] = [
-    { id: 1, name: 'Tractor', description: 'John Deere 9RX 640 : 691CP, Capacitate motor: 13.6l, 25.5 tone ', pricePerDay: 200, available: true, imageUrl: 'C:\Users\Admin\Desktop\Proiect_Prog_Avansata\src\assets\images\johndeere9rx.jfif' },
-    { id: 2, name: 'Tractor', description: 'CaseIH Optum CVX 300 : 267CP, Capacitate motor: 6.7l, 11.1 tone ', pricePerDay: 40, available: true, imageUrl: 'C:\Users\Admin\Desktop\Proiect_Prog_Avansata\src\assets\images\case300cvx.jpg'},
-
+    { id: 1, name: 'Tractor', description: 'John Deere 9RX 640 : 691CP, Capacitate motor: 13.6l, 25.5 tone ', pricePerDay: 200, available: true, imageUrl: 'johndeere9rx.jfif' },
+    { id: 2, name: 'Tractor', description: 'CaseIH Optum CVX 300 : 267CP, Capacitate motor: 6.7l, 11.1 tone ', pricePerDay: 40, available: true, imageUrl: 'case300cvx.jpg'},
+    { id: 3, name: 'Combina', description: 'John Deere S7 900 : 543CP, Capacitate motor: 13.6l, Capacitate: 14100l', pricePerDay: 180, available: false, imageUrl: 'johndeeres7900.jfif'}
   ];
 
   getAll(): Equipment[] {

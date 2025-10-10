@@ -1,24 +1,27 @@
 <div class="container">
-  <h2>Adaugă echipament nou</h2>
-  <form (ngSubmit)="onSubmit()" #addForm="ngForm">
-    <label>Nume:</label>
-    <input type="text" [(ngModel)]="newEquipment.name" name="name" required>
+  <h2>Adaugă un nou echipament</h2>
+  <form (ngSubmit)="onSubmit()" #formAdd="ngForm">
+    <label for="name">Nume:</label>
+    <input type="text" id="name" name="name" [(ngModel)]="newEquipment.name" required>
 
-    <label>Descriere:</label>
-    <textarea [(ngModel)]="newEquipment.description" name="description"></textarea>
+    <label for="description">Descriere:</label>
+    <textarea id="description" name="description" [(ngModel)]="newEquipment.description"></textarea>
 
-    <label>Preț/zi:</label>
-    <input type="number" [(ngModel)]="newEquipment.pricePerDay" name="pricePerDay" required>
+    <label for="price">Preț/zi:</label>
+    <input type="number" id="price" name="pricePerDay" [(ngModel)]="newEquipment.pricePerDay" required>
 
-    <label>URL imagine:</label>
-    <input type="url" [(ngModel)]="newEquipment.imageUrl" name="imageUrl">
+    <label for="imageUrl">URL Imagine:</label>
+    <input type="url" id="imageUrl" name="imageUrl" [(ngModel)]="newEquipment.imageUrl">
 
     <label>
-      <input type="checkbox" [(ngModel)]="newEquipment.available" name="available"> Disponibil
+      <input type="checkbox" name="available" [(ngModel)]="newEquipment.available">
+      Disponibil
     </label>
 
-    <button type="submit" [disabled]="addForm.invalid">Adaugă</button>
+    <button type="submit" [disabled]="formAdd.invalid">Adaugă</button>
   </form>
 
-  <a routerLink="/equipments" class="btn">← Înapoi la listă</a>
+  <div class="back-container">
+    <button routerLink="/" class="back-btn">← Înapoi la Home</button>
+  </div>
 </div>

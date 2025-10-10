@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Lista echipamente agricole</h2>
+  <h2>Lista Echipamente Agricole</h2>
 
   <div *ngIf="equipments && equipments.length > 0; else noEquipments" class="grid">
     <div *ngFor="let eq of equipments" class="card">
@@ -18,7 +18,7 @@
         </p>
       </div>
       <div class="card-footer">
-        <button class="details-btn" [routerLink]="['/equipments', eq.id]">Vezi detalii</button>
+        <button class="btn" [routerLink]="['/equipments', eq.id]">Detalii</button>
       </div>
     </div>
   </div>
@@ -28,6 +28,6 @@
   </ng-template>
 
   <div class="back-container">
-    <button class="back-btn" routerLink="/">← Înapoi la Home</button>
+    <button routerLink="/" class="back-btn">← Înapoi la Home</button>
   </div>
 </div>

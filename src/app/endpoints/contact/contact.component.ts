@@ -17,7 +17,6 @@ export class ContactComponent {
 
   submit() {
     alert(`Mesaj trimis!\nNume: ${this.name}\nEmail: ${this.email}\nMesaj: ${this.message}`);
-
     this.name = '';
     this.email = '';
     this.message = '';
