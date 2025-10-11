@@ -15,7 +15,7 @@ export class EquipmentListComponent implements OnInit {
   equipments: Equipment[] = [];
 
   constructor(private equipmentService: EquipmentService) {}
-
+  
   ngOnInit(): void {
     this.equipments = this.equipmentService.getAll();
   }

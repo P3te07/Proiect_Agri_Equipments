@@ -2,6 +2,7 @@
   --primary-color: #2E8B57;  
   --accent-color: #FFD700;   
   --background-color: #F5F5F5;
+  --back-button-color: #BFEE90;
   --text-color: #333333;
   --card-bg: #ffffff;
 }
@@ -114,11 +115,21 @@ button:hover, .btn:hover {
 }
 
 .back-container {
-  margin-top: 20px;
+  margin-top: 30px;
   text-align: center;
 }
+
 .back-btn {
-  display: inline-block;
+  padding: 10px 16px;
+  background-color: var(--back-button-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background-color: darken(var(--color-secondary), 10%);
 }
 
 form {
