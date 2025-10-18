@@ -144,9 +144,11 @@ form label {
   margin-bottom: 5px;
   font-weight: bold;
 }
+
 form input[type="text"],
 form input[type="email"],
 form input[type="number"],
+
 form textarea {
   width: 100%;
   padding: 8px;
@@ -169,8 +171,8 @@ form textarea {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   position: sticky;
   top: 0;
-  width: 100%;
-  z-index: 1000;
+  width: 97.9%;
+  z-index: 1;
 }
 
 .navbar a, .navbar .nav-item {

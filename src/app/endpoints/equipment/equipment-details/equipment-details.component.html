@@ -8,7 +8,7 @@
     <p><strong>Preț/zi:</strong> {{ equipment?.pricePerDay }} $</p>
     <p><strong>Status:</strong>
       <span [ngStyle]="{ color: equipment?.available ? 'green' : 'red' }">
-        {{ equipment?.available ? 'Disponibil' : 'Nu disponibil' }}
+        {{ equipment?.available ? 'Disponibil' : 'In-disponibil' }}
       </span>
     </p>
     <div class="back-container">
