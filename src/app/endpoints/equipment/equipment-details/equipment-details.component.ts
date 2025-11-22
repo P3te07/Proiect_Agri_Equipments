@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { EquipmentService } from '../../../services/equipment.service';
 import { Equipment } from '../../../models/equipment.model';
 
@@ -13,7 +12,9 @@ import { Equipment } from '../../../models/equipment.model';
   styleUrls: ['./equipment-details.component.css']
 })
 export class EquipmentDetailsComponent implements OnInit {
-  equipment: Equipment | undefined;
+  equipment: Equipment | null = null;
+  isLoading: boolean = true;
+  errorMessage: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -21,10 +22,20 @@ export class EquipmentDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam) {
-      const id = Number(idParam);
-      this.equipment = this.equipmentService.getById(id);
+    const id = this.route.snapshot.paramMap.get('id'); // id este string acum
+    
+    if (id) {
+      this.equipmentService.getById(id).subscribe({
+        next: (data) => {
+          this.equipment = data;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error loading equipment:', error);
+          this.errorMessage = 'Echipamentul nu a fost găsit';
+          this.isLoading = false;
+        }
+      });
     }
   }
 }

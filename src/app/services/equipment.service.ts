@@ -1,26 +1,33 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Equipment } from '../models/equipment.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EquipmentService {
-  private equipments: Equipment[] = [
-    { id: 1, name: 'Tractor', description: 'John Deere 9RX 640 : 691CP, Capacitate motor: 13.6l, 25.5 tone ', pricePerDay: 200, available: true, imageUrl: 'johndeere9rx.jfif' },
-    { id: 2, name: 'Tractor', description: 'CaseIH Optum CVX 300 : 267CP, Capacitate motor: 6.7l, 11.1 tone ', pricePerDay: 40, available: true, imageUrl: 'case300cvx.jpg'},
-    { id: 3, name: 'Combina', description: 'John Deere S7 900 : 543CP, Capacitate motor: 13.6l, Capacitate: 14100l', pricePerDay: 180, available: false, imageUrl: 'johndeeres7900.jfif'}
-  ];
+  private apiUrl = 'http://localhost:3000/equipment';
 
-  getAll(): Equipment[] {
-    return this.equipments;
+  constructor(private http: HttpClient) {}
+
+  getAll(): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>(this.apiUrl);
   }
 
-  getById(id: number): Equipment | undefined {
-    return this.equipments.find(e => e.id === id);
+  getById(id: string): Observable<Equipment> {
+    return this.http.get<Equipment>(`${this.apiUrl}/${id}`);
   }
 
-  addEquipment(equipment: Omit<Equipment, 'id'>): void {
-    const newId = this.equipments.length + 1;
-    this.equipments.push({ id: newId, ...equipment });
+  addEquipment(equipment: Omit<Equipment, 'id'>): Observable<Equipment> {
+    return this.http.post<Equipment>(this.apiUrl, equipment);
+  }
+
+  updateEquipment(id: string, equipment: Partial<Equipment>): Observable<Equipment> {
+    return this.http.patch<Equipment>(`${this.apiUrl}/${id}`, equipment);
+  }
+
+  deleteEquipment(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

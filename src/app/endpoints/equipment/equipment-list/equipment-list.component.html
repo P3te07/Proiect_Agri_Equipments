@@ -1,7 +1,11 @@
 <div class="container">
   <h2>Lista Echipamente Agricole</h2>
 
-  <div *ngIf="equipments && equipments.length > 0; else noEquipments" class="grid">
+  <div *ngIf="isLoading" class="loading">Se încarcă...</div>
+
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <div *ngIf="!isLoading && equipments && equipments.length > 0; else noEquipments" class="grid">
     <div *ngFor="let eq of equipments" class="card">
       <div class="image-wrapper">
         <img [src]="eq.imageUrl" alt="{{ eq.name }}">

@@ -13,10 +13,26 @@ import { Equipment } from '../../../models/equipment.model';
 })
 export class EquipmentListComponent implements OnInit {
   equipments: Equipment[] = [];
+  isLoading: boolean = true;
+  errorMessage: string = '';
 
   constructor(private equipmentService: EquipmentService) {}
   
   ngOnInit(): void {
-    this.equipments = this.equipmentService.getAll();
+    this.loadEquipments();
+  }
+
+  loadEquipments(): void {
+    this.equipmentService.getAll().subscribe({
+      next: (data) => {
+        this.equipments = data;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading equipments:', error);
+        this.errorMessage = 'Eroare la încărcarea echipamentelor';
+        this.isLoading = false;
+      }
+    });
   }
 }

@@ -1,17 +1,40 @@
-import {Routes} from '@angular/router'
-import { HomeComponent } from './endpoints/home/home.component';
-import { AboutComponent } from './endpoints/about/about.component';
-import { ContactComponent } from './endpoints/contact/contact.component';
-import { EquipmentListComponent } from './endpoints/equipment/equipments-list/equipment-list.component';
-import { EquipmentDetailsComponent } from './endpoints/equipment/equipment-details/equipment-details.component';
-import { AddEquipmentComponent } from './endpoints/equipment/add-equipment/add-equipment.component';
+import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'about', component: AboutComponent },
-  { path: 'contact', component: ContactComponent },
-  { path: 'equipments', component: EquipmentListComponent },
-  { path: 'equipments/:id', component: EquipmentDetailsComponent },
-  { path: 'add-equipment', component: AddEquipmentComponent },
-  { path: '**', redirectTo: '' }
+  { 
+    path: '', 
+    loadComponent: () => import('./endpoints/home/home.component').then(m => m.HomeComponent)
+  },
+  { 
+    path: 'login', 
+    loadComponent: () => import('./components/auth/login/login.component').then(m => m.LoginComponent)
+  },
+  { 
+    path: 'register', 
+    loadComponent: () => import('./components/auth/register/register.component').then(m => m.RegisterComponent)
+  },
+  { 
+    path: 'equipments', 
+    loadComponent: () => import('./endpoints/equipment/equipment-list/equipment-list.component').then(m => m.EquipmentListComponent)
+  },
+  { 
+    path: 'equipments/:id', 
+    loadComponent: () => import('./endpoints/equipment/equipment-details/equipment-details.component').then(m => m.EquipmentDetailsComponent)
+  },
+  { 
+    path: 'add-equipment', 
+    loadComponent: () => import('./endpoints/equipment/add-equipment/add-equipment.component').then(m => m.AddEquipmentComponent)
+  },
+  { 
+    path: 'contact', 
+    loadComponent: () => import('./endpoints/contact/contact.component').then(m => m.ContactComponent)
+  },
+  { 
+    path: 'about', 
+    loadComponent: () => import('./endpoints/about/about.component').then(m => m.AboutComponent)
+  },
+  { 
+    path: '**', 
+    redirectTo: ''
+  }
 ];

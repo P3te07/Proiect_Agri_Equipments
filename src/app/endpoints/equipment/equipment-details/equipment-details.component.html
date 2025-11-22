@@ -1,25 +1,42 @@
 <div class="container">
-  <ng-container *ngIf="equipment; else notFound">
-    <h2>{{ equipment?.name }}</h2>
-    <div class="image-wrapper">
-      <img [src]="equipment?.imageUrl" alt="{{ equipment?.name }}">
-    </div>
-    <p>{{ equipment?.description }}</p>
-    <p><strong>Preț/zi:</strong> {{ equipment?.pricePerDay }} $</p>
-    <p><strong>Status:</strong>
-      <span [ngStyle]="{ color: equipment?.available ? 'green' : 'red' }">
-        {{ equipment?.available ? 'Disponibil' : 'In-disponibil' }}
-      </span>
-    </p>
-    <div class="back-container">
-      <button routerLink="/" class="back-btn">← Înapoi la Home</button>
-    </div>
-  </ng-container>
+  <div *ngIf="isLoading" class="loading">Se încarcă...</div>
 
-  <ng-template #notFound>
-    <p>Echipament nu a fost găsit.</p>
-    <div class="back-container">
-      <button routerLink="/" class="back-btn">Înapoi la Home</button>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="equipment && !isLoading" class="equipment-details">
+    <div class="image-container">
+      <img [src]="equipment.imageUrl" [alt]="equipment.name">
     </div>
-  </ng-template>
+    
+    <div class="details-content">
+      <h2>{{ equipment.name }}</h2>
+      <p class="description">{{ equipment.description }}</p>
+      
+      <div class="info-section">
+        <div class="info-item">
+          <strong>Preț pe zi:</strong>
+          <span class="price">{{ equipment.pricePerDay }} $</span>
+        </div>
+        
+        <div class="info-item">
+          <strong>Status:</strong>
+          <span [ngStyle]="{ color: equipment.available ? 'green' : 'red' }">
+            {{ equipment.available ? 'Disponibil' : 'Indisponibil' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button *ngIf="equipment.available" routerLink="/contact" class="btn btn-contact">
+          Contactează-ne pentru închiriere
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="back-container">
+    <button routerLink="/equipments" class="back-btn">← Înapoi la listă</button>
+  </div>
 </div>
