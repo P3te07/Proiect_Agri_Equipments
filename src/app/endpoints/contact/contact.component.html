@@ -1,14 +1,16 @@
 <div class="container">
   <h2>Contactează-ne</h2>
   
-  <!-- Success Message -->
-  <div *ngIf="submitted && !error" class="success-message">
-    ✓ Mulțumim! Mesajul tău a fost trimis cu succes. Te vom contacta în curând!
+  <div *ngIf="equipmentName" class="equipment-info">
+    Echipament: <strong>{{ equipmentName }}</strong>
   </div>
 
-  <!-- Error Message -->
+  <div *ngIf="submitted && !error" class="success-message">
+    Mulțumim! Mesajul tău a fost trimis cu succes. Te vom contacta în curând!
+  </div>
+
   <div *ngIf="error" class="error-message">
-    ✗ A apărut o eroare. Te rugăm să încerci din nou.
+    A apărut o eroare. Te rugăm să încerci din nou.
   </div>
 
   <form (ngSubmit)="submit()" #contactForm="ngForm" *ngIf="!submitted || error">

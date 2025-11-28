@@ -1,10 +1,13 @@
 :root {
-  --primary-color: #2E8B57;  
-  --accent-color: #FFD700;   
+  --primary-color: #367C2B;      
+  --accent-color: #FFDE00;        
   --background-color: #F5F5F5;
-  --back-button-color: #BFEE90;
-  --text-color: #333333;
+  --text-color: #1a1a1a;
+  --navbar-text: #000000;         
   --card-bg: #ffffff;
+  --jd-dark-green: #2c6a24;
+  --jd-light-green: #4fa63c;
+  --back-button-color: #cffdbc
 }
 
 body {
@@ -126,6 +129,7 @@ button:hover, .btn:hover {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin: 10px;
 }
 
 .back-btn:hover {
@@ -162,42 +166,15 @@ form textarea {
   resize: vertical;
 }
 
-.navbar {
-  display: flex;
-  justify-content: center;      
-  align-items: center;          
-  background-color: var(--primary-color); 
-  padding: 10px 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 0;
-  width: 97.9%;
-  z-index: 1;
+.equipment-info {
+  background-color: #e7f3ff;
+  border-left: 4px solid var(--primary-color);
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
-.navbar a, .navbar .nav-item {
-  color: var(--text-color);
-  margin: 0 15px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.navbar a:hover, .navbar .nav-item:hover {
-  color: var(--accent-color);
-  transform: scale(1.05);
-}
-
-.navbar a.active {
-  color: var(--accent-color);
-  font-weight: bold;
-}
-
-.navbar{
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-right: auto;
-}
 
 @media (max-width: 768px) {
   .navbar {

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { 
@@ -14,6 +15,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/auth/register/register.component').then(m => m.RegisterComponent)
   },
   { 
+    path: 'profile',
+    canActivate: [authGuard],
+    loadComponent: () => import('./endpoints/profile/profile.component').then(m => m.ProfileComponent)
+  },
+  { 
     path: 'equipments', 
     loadComponent: () => import('./endpoints/equipment/equipment-list/equipment-list.component').then(m => m.EquipmentListComponent)
   },
@@ -22,7 +28,8 @@ export const routes: Routes = [
     loadComponent: () => import('./endpoints/equipment/equipment-details/equipment-details.component').then(m => m.EquipmentDetailsComponent)
   },
   { 
-    path: 'add-equipment', 
+    path: 'add-equipment',
+    canActivate: [authGuard],
     loadComponent: () => import('./endpoints/equipment/add-equipment/add-equipment.component').then(m => m.AddEquipmentComponent)
   },
   { 

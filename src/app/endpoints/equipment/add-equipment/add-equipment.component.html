@@ -1,27 +1,65 @@
 <div class="container">
   <h2>Adaugă un nou echipament</h2>
-  <form (ngSubmit)="onSubmit()" #formAdd="ngForm">
+
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <form (ngSubmit)="onSubmit()" #formAdd="ngForm" *ngIf="!successMessage">
     <label for="name">Nume:</label>
     <input type="text" id="name" name="name" [(ngModel)]="newEquipment.name" required>
 
     <label for="description">Descriere:</label>
-    <textarea id="description" name="description" [(ngModel)]="newEquipment.description"></textarea>
+    <textarea id="description" name="description" [(ngModel)]="newEquipment.description" required></textarea>
 
-    <label for="price">Preț/zi:</label>
-    <input type="number" id="price" name="pricePerDay" [(ngModel)]="newEquipment.pricePerDay" required>
+    <label for="price">Preț/zi ($):</label>
+    <input type="number" id="price" name="pricePerDay" [(ngModel)]="newEquipment.pricePerDay" required min="0">
 
-    <label for="imageUrl">URL Imagine:</label>
-    <input type="url" id="imageUrl" name="imageUrl" [(ngModel)]="newEquipment.imageUrl">
+    <div class="image-upload-section">
+      <label>Imagine:</label>
+
+      <div class="upload-area">
+        <input type="file" id="imageFile" (change)="onFileSelected($event)" accept="image/*" #fileInput hidden>
+
+        <div *ngIf="!imagePreview" class="upload-placeholder">
+          <button type="button" class="btn-select-file" (click)="fileInput.click()">
+            Selectează imagine
+          </button>
+          <p class="upload-hint">JPG, PNG, GIF, WEBP (max 5MB)</p>
+        </div>
+
+        <div *ngIf="imagePreview" class="image-preview-container">
+          <img [src]="imagePreview" alt="Preview" class="image-preview">
+          <div class="image-actions">
+            <button type="button" class="btn-upload" (click)="uploadImage()"
+              [disabled]="isUploading || !!newEquipment.imageUrl">
+              {{ isUploading ? 'Se încarcă...' : newEquipment.imageUrl ? 'Încărcată' : 'Încarcă' }}
+            </button>
+            <button type="button" class="btn-remove" (click)="removeImage()">
+              Elimină
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <label>
       <input type="checkbox" name="available" [(ngModel)]="newEquipment.available">
       Disponibil
     </label>
 
-    <button type="submit" [disabled]="formAdd.invalid">Adaugă</button>
+    <button type="submit" [disabled]="formAdd.invalid || isSubmitting || (selectedFile && !newEquipment.imageUrl)">
+      {{ isSubmitting ? 'Se adaugă...' : 'Adaugă Echipament' }}
+    </button>
+
+    <p *ngIf="selectedFile && !newEquipment.imageUrl" class="warning-text">
+      Imaginea este selectată dar nu este încărcată. Click pe "Încarcă" mai întâi.
+    </p>
   </form>
 
   <div class="back-container">
-    <button routerLink="/" class="back-btn">← Înapoi la Home</button>
-  </div>
-</div>
+    <button type="button" routerLink="/" class="back-btn">← Înapoi la Home

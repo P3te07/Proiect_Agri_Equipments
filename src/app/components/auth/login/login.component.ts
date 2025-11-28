@@ -30,50 +30,51 @@ export class LoginComponent {
   onSubmit(): void {
     console.log('=== LOGIN FORM SUBMITTED ===');
     console.log('📧 Email:', this.credentials.email);
-    console.log('🔑 Password:', this.credentials.password ? '***' : 'EMPTY');
-    console.log('🔑 Password length:', this.credentials.password?.length || 0);
-    
-    if (!this.credentials.email || !this.credentials.password) {
-      console.error('❌ Email or password is empty!');
-      this.errorMessage = 'Te rugăm să completezi email-ul și parola';
-      return;
-    }
     
     this.isLoading = true;
     this.errorMessage = '';
 
-    console.log('📤 Calling authService.login...');
-    
     this.authService.login(this.credentials).subscribe({
       next: (response) => {
         console.log('✅✅✅ Login successful!');
         console.log('Response:', response);
-        console.log('User:', response.user);
-        console.log('Role:', response.user.role);
-        console.log('Token:', response.access_token);
         
-        alert('Login cu succes! Role: ' + response.user.role);
+        // Verificare IMMEDIATLY după login
+        setTimeout(() => {
+          const token = localStorage.getItem('access_token');
+          const user = localStorage.getItem('current_user');
+          
+          console.log('🔍 POST-LOGIN CHECK:');
+          console.log('Token exists:', !!token);
+          console.log('User exists:', !!user);
+          console.log('Token value:', token?.substring(0, 30));
+          console.log('User value:', user);
+          
+          if (user) {
+            const parsedUser = JSON.parse(user);
+            console.log('Parsed user:', parsedUser);
+            console.log('User role:', parsedUser.role);
+          }
+          
+          // Verifică și din AuthService
+          console.log('AuthService.getCurrentUser():', this.authService.getCurrentUser());
+          console.log('AuthService.isLoggedIn():', this.authService.isLoggedIn());
+          console.log('AuthService.isAdmin():', this.authService.isAdmin());
+        }, 100);
         
-        this.router.navigate(['/']);
+        // Navighează după un delay scurt
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 500);
       },
       error: (error) => {
-        console.error('❌❌❌ Login error!');
-        console.error('Full error:', error);
-        console.error('Error status:', error.status);
-        console.error('Error message:', error.message);
-        console.error('Error body:', error.error);
-        
+        console.error('❌ Login error:', error);
         this.errorMessage = error.error?.message || 'Email sau parolă incorectă';
         this.isLoading = false;
-        
-        alert('Eroare la login: ' + this.errorMessage);
       },
       complete: () => {
-        console.log('🏁 Login observable completed');
         this.isLoading = false;
       }
     });
-    
-    console.log('=== LOGIN FUNCTION ENDED ===');
   }
 }

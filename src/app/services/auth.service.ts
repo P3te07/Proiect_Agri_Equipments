@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap, catchError } from 'rxjs';
-import { throwError } from 'rxjs';
+import { BehaviorSubject, Observable, tap, catchError, throwError, interval } from 'rxjs';
+import { Router } from '@angular/router';
 import { User, LoginRequest, AuthResponse, RegisterRequest } from '../models/user.model';
 
 @Injectable({
@@ -13,91 +13,115 @@ export class AuthService {
   public currentUser$ = this.currentUserSubject.asObservable();
   private isBrowser: boolean;
 
-  constructor(private http: HttpClient) {
-    this.isBrowser = typeof window !== 'undefined' && typeof localStorage !== 'undefined';
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {
+    this.isBrowser = typeof window !== 'undefined' && typeof sessionStorage !== 'undefined';
     
     if (this.isBrowser) {
       this.loadUserFromStorage();
+      this.startTokenExpirationCheck();
     }
-    
-    console.log('🔧 AuthService initialized');
-    console.log('🌐 API URL:', this.apiUrl);
+  }
+
+  // Verifică expirarea token-ului la fiecare 5 minute
+  private startTokenExpirationCheck(): void {
+    interval(5 * 60 * 1000).subscribe(() => {
+      if (this.isTokenExpired()) {
+        console.log('🔓 Token expired, logging out...');
+        alert('Sesiunea ta a expirat. Te rugăm să te autentifici din nou.');
+        this.logout();
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  private isTokenExpired(): boolean {
+    const token = this.getToken();
+    if (!token) return true;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expirationTime = payload.exp * 1000; // Convert to milliseconds
+      const currentTime = Date.now();
+      
+      return currentTime > expirationTime;
+    } catch (e) {
+      return true;
+    }
+  }
+
+  public reloadUserFromStorage(): void {
+    this.loadUserFromStorage();
   }
 
   private loadUserFromStorage(): void {
     if (!this.isBrowser) return;
 
     try {
-      const token = localStorage.getItem('access_token');
-      const userStr = localStorage.getItem('current_user');
+      const token = sessionStorage.getItem('access_token');
+      const userStr = sessionStorage.getItem('current_user');
       
       if (token && userStr) {
-        const user = JSON.parse(userStr);
+        // Verifică dacă token-ul e expirat
+        if (this.isTokenExpired()) {
+          console.log('🔓 Token expired on load, clearing storage');
+          this.logout();
+          return;
+        }
+
+        const user: User = JSON.parse(userStr);
         this.currentUserSubject.next(user);
-        console.log('👤 User loaded from storage:', user);
+        console.log('✅ User loaded from sessionStorage:', user.email);
       }
     } catch (e) {
-      console.error('Error loading user from storage:', e);
+      console.error('❌ Error loading user from storage:', e);
       this.logout();
     }
   }
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
-    console.log('🚀 AuthService.login called');
-    console.log('📧 Email:', credentials.email);
-    console.log('🔑 Password length:', credentials.password?.length);
-    console.log('🌐 Sending POST to:', `${this.apiUrl}/login`);
-    
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
-      tap(response => {
-        console.log('✅ Response received:', response);
+      tap((response: AuthResponse) => {
         if (this.isBrowser) {
-          localStorage.setItem('access_token', response.access_token);
-          localStorage.setItem('current_user', JSON.stringify(response.user));
-          console.log('💾 Data saved to localStorage');
+          sessionStorage.setItem('access_token', response.access_token);
+          sessionStorage.setItem('current_user', JSON.stringify(response.user));
         }
         this.currentUserSubject.next(response.user);
       }),
       catchError((error: HttpErrorResponse) => {
-        console.error('❌ HTTP Error:', error);
-        console.error('Status:', error.status);
-        console.error('Message:', error.message);
-        console.error('Error body:', error.error);
         return throwError(() => error);
       })
     );
   }
 
   register(userData: RegisterRequest): Observable<AuthResponse> {
-    console.log('🚀 AuthService.register called');
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, userData).pipe(
-      tap(response => {
-        console.log('✅ Register response received:', response);
+      tap((response: AuthResponse) => {
         if (this.isBrowser) {
-          localStorage.setItem('access_token', response.access_token);
-          localStorage.setItem('current_user', JSON.stringify(response.user));
+          sessionStorage.setItem('access_token', response.access_token);
+          sessionStorage.setItem('current_user', JSON.stringify(response.user));
         }
         this.currentUserSubject.next(response.user);
       }),
       catchError((error: HttpErrorResponse) => {
-        console.error('❌ Register error:', error);
         return throwError(() => error);
       })
     );
   }
 
   logout(): void {
-    console.log('🚪 Logout called');
     if (this.isBrowser) {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('current_user');
+      sessionStorage.removeItem('access_token');
+      sessionStorage.removeItem('current_user');
     }
     this.currentUserSubject.next(null);
   }
 
   getToken(): string | null {
     if (!this.isBrowser) return null;
-    return localStorage.getItem('access_token');
+    return sessionStorage.getItem('access_token');
   }
 
   getCurrentUser(): User | null {
@@ -105,7 +129,10 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    const hasToken = !!this.getToken();
+    const hasUser = !!this.getCurrentUser();
+    const tokenValid = !this.isTokenExpired();
+    return hasToken && hasUser && tokenValid;
   }
 
   isAdmin(): boolean {

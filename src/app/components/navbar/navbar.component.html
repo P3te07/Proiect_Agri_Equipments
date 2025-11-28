@@ -1,21 +1,22 @@
 <nav class="navbar">
-  <div class="nav-left">
+  <div class="nav-center">
     <button routerLink="/" class="nav-item btn">Home</button>
     <button routerLink="/equipments" class="nav-item btn">Echipamente</button>
     <button *ngIf="isAdmin" routerLink="/add-equipment" class="nav-item btn">Adaugă</button>
-    <button routerLink="/about" class="nav-item btn">About</button>
+    <button routerLink="/about" class="nav-item btn">Despre</button>
     <button routerLink="/contact" class="nav-item btn">Contact</button>
   </div>
 
   <div class="nav-right">
-    <div *ngIf="currentUser; else authButtons" class="user-info">
-      <span class="user-name">{{ currentUser.firstName }} {{ currentUser.lastName }}</span>
-      <span *ngIf="isAdmin" class="admin-badge">Admin</span>
-      <button (click)="logout()" class="btn btn-logout">Deconectare</button>
+    <div *ngIf="currentUser; else authButtons" class="user-btn-container">
+      <button routerLink="/profile" class="user-name">
+        {{ currentUser.firstName }} {{ currentUser.lastName }}
+      </button>
     </div>
+
     <ng-template #authButtons>
-      <button routerLink="/login" class="nav-item btn btn-login">Autentificare</button>
-      <button routerLink="/register" class="nav-item btn btn-register">Înregistrare</button>
+      <button routerLink="/login" class="btn-login">Autentificare</button>
+      <button routerLink="/register" class="btn-register">Înregistrare</button>
     </ng-template>
   </div>
 </nav>

@@ -7,19 +7,19 @@
 
   <div *ngIf="equipment && !isLoading" class="equipment-details">
     <div class="image-container">
-      <img [src]="equipment.imageUrl" [alt]="equipment.name">
+      <img [src]="equipment.imageUrl || 'https://via.placeholder.com/400x300?text=Fără+Imagine'" [alt]="equipment.name">
     </div>
-    
+
     <div class="details-content">
       <h2>{{ equipment.name }}</h2>
       <p class="description">{{ equipment.description }}</p>
-      
+
       <div class="info-section">
         <div class="info-item">
           <strong>Preț pe zi:</strong>
           <span class="price">{{ equipment.pricePerDay }} $</span>
         </div>
-        
+
         <div class="info-item">
           <strong>Status:</strong>
           <span [ngStyle]="{ color: equipment.available ? 'green' : 'red' }">
@@ -29,8 +29,13 @@
       </div>
 
       <div class="actions">
-        <button *ngIf="equipment.available" routerLink="/contact" class="btn btn-contact">
+        <button *ngIf="equipment.available" [routerLink]="['/contact']"
+          [queryParams]="{equipmentId: equipment.id, equipmentName: equipment.name}" class="btn btn-contact">
           Contactează-ne pentru închiriere
+        </button>
+
+        <button *ngIf="isAdmin" (click)="openDeleteModal()" class="btn btn-delete" [disabled]="isDeleting">
+          {{ isDeleting ? 'Se șterge...' : 'Șterge Echipament' }}
         </button>
       </div>
     </div>
@@ -39,4 +44,10 @@
   <div class="back-container">
     <button routerLink="/equipments" class="back-btn">← Înapoi la listă</button>
   </div>
+
+  <!-- Modal de confirmare -->
+  <app-confirm-modal [isOpen]="showDeleteModal" title="Confirmare ștergere"
+    [message]="'Sigur vrei să ștergi ' + (equipment?.name || '') + '? Această acțiune nu poate fi anulată.'"
+    confirmText="Șterge" cancelText="Anulează" (confirmed)="confirmDelete()" (cancelled)="closeDeleteModal()">
+  </app-confirm-modal>
 </div>
