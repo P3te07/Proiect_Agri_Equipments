@@ -114,7 +114,7 @@
           <button (click)="toggleEdit()" class="btn btn-edit">
             Editează Profil
           </button>
-          <button (click)="logout()" class="btn btn-logout">
+          <button (click)="openLogoutModal()" class="btn btn-logout">
             Deconectare
           </button>
         </div>
@@ -125,4 +125,14 @@
   <div class="back-container">
     <button routerLink="/" class="back-btn">← Înapoi la Home</button>
   </div>
+
+  <app-confirm-modal
+    [isOpen]="showLogoutModal"
+    title="Confirmare deconectare"
+    message="Sigur vrei să te deconectezi?"
+    confirmText="Deconectează-mă"
+    cancelText="Anulează"
+    (confirmed)="confirmLogout()"
+    (cancelled)="closeLogoutModal()">
+  </app-confirm-modal>
 </div>

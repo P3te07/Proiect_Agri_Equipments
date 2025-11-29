@@ -25,11 +25,10 @@ export class AuthService {
     }
   }
 
-  // Verifică expirarea token-ului la fiecare 5 minute
   private startTokenExpirationCheck(): void {
     interval(5 * 60 * 1000).subscribe(() => {
       if (this.isTokenExpired()) {
-        console.log('🔓 Token expired, logging out...');
+        console.log('Token expired, logging out...');
         alert('Sesiunea ta a expirat. Te rugăm să te autentifici din nou.');
         this.logout();
         this.router.navigate(['/login']);
@@ -43,7 +42,7 @@ export class AuthService {
 
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      const expirationTime = payload.exp * 1000; // Convert to milliseconds
+      const expirationTime = payload.exp * 1000; 
       const currentTime = Date.now();
       
       return currentTime > expirationTime;
@@ -64,19 +63,18 @@ export class AuthService {
       const userStr = sessionStorage.getItem('current_user');
       
       if (token && userStr) {
-        // Verifică dacă token-ul e expirat
         if (this.isTokenExpired()) {
-          console.log('🔓 Token expired on load, clearing storage');
+          console.log('Token expired on load, clearing storage');
           this.logout();
           return;
         }
 
         const user: User = JSON.parse(userStr);
         this.currentUserSubject.next(user);
-        console.log('✅ User loaded from sessionStorage:', user.email);
+        console.log('User loaded from sessionStorage:', user.email);
       }
     } catch (e) {
-      console.error('❌ Error loading user from storage:', e);
+      console.error('Error loading user from storage:', e);
       this.logout();
     }
   }

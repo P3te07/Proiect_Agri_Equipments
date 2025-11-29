@@ -20,7 +20,7 @@ export class UploadService {
     const formData = new FormData();
     formData.append('image', file);
 
-    console.log('📤 Uploading image:', file.name);
+    console.log('Uploading image:', file.name);
     return this.http.post<UploadResponse>(this.apiUrl, formData);
   }
 }

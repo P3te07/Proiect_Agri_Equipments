@@ -5,11 +5,12 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../../models/user.model';
+import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, ConfirmModalComponent],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
@@ -19,6 +20,7 @@ export class ProfileComponent implements OnInit {
   isSaving: boolean = false;
   successMessage: string = '';
   errorMessage: string = '';
+  showLogoutModal: boolean = false;
 
   editData = {
     firstName: '',
@@ -76,7 +78,7 @@ export class ProfileComponent implements OnInit {
 
     this.http.patch<User>(this.apiUrl, this.editData).subscribe({
       next: (updatedUser) => {
-        console.log('✅ Profile updated:', updatedUser);
+        console.log('Profile updated:', updatedUser);
         
         sessionStorage.setItem('current_user', JSON.stringify(updatedUser));
         this.user = updatedUser;
@@ -90,17 +92,24 @@ export class ProfileComponent implements OnInit {
         }, 3000);
       },
       error: (error: HttpErrorResponse) => {
-        console.error('❌ Update error:', error);
+        console.error('Update error:', error);
         this.errorMessage = 'Eroare la actualizarea profilului';
         this.isSaving = false;
       }
     });
   }
 
-  logout(): void {
-    if (confirm('Sigur vrei să te deconectezi?')) {
-      this.authService.logout();
-      this.router.navigate(['/']);
-    }
+  openLogoutModal(): void {
+    this.showLogoutModal = true;
+  }
+
+  closeLogoutModal(): void {
+    this.showLogoutModal = false;
+  }
+
+  confirmLogout(): void {
+    this.showLogoutModal = false;
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 }

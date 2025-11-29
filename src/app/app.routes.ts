@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './guards/auth.guard';
+import { authGuard, adminGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { 
@@ -29,7 +29,7 @@ export const routes: Routes = [
   },
   { 
     path: 'add-equipment',
-    canActivate: [authGuard],
+    canActivate: [adminGuard], 
     loadComponent: () => import('./endpoints/equipment/add-equipment/add-equipment.component').then(m => m.AddEquipmentComponent)
   },
   { 
